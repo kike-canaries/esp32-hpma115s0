@@ -4,8 +4,7 @@
  ***/
 
 #include <Arduino.h>
-#include <GUIUtils.hpp>
-#include <status.hpp>
+#include <GUILib.hpp>
 
 unsigned int tcount = 0;
 bool toggle;
@@ -50,7 +49,11 @@ void setup(void) {
 
   randomSeed(A0);
 
-  delay(2000);
+  delay(1000);
+}
+
+bool getBoolean(){
+  return random(0,2) == 1 ? true : false;
 }
 
 void loop(void) {
@@ -58,10 +61,15 @@ void loop(void) {
   int rnd = random(0, 3);
 
   gui.pageStart();
-  gui.displaySensorAverage(random(0, 999));
+
+  gui.displaySensorAverage(random(0, 999),1);
+
   gui.displaySensorData(120, 230, 15, 3.5, 12.3, random(0,99));
-  gui.displayStatus(true,true,true);
+
+  gui.displayStatus(getBoolean(),true,getBoolean());
+  
   functionPtr[rnd]();       // Call a test function in random sequence
+
   gui.pageEnd();
 
   delay(1000);
